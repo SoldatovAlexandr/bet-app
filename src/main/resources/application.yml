@@ -1,0 +1,35 @@
+datasource:
+  db-bet:
+    hikari:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: "jdbc:postgresql://${POSTGRES_SERVER}:${POSTGRES_PORT}/${POSTGRES_DB}"
+      username: "${POSTGRES_USER}"
+      password: "${POSTGRES_PASSWORD}"
+      connection-timeout: 60000
+      maximum-pool-size: 5
+server:
+  port: 8090
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: db.changelog.xml
+    drop-first: false
+logging:
+  level:
+    org.springframework: WARN
+app:
+  telegram:
+    bot:
+      bet:
+        token: "${BOT_TOKEN}"
+        name: "${BOT_NAME}"
+  uefa:
+    integration:
+      url: "https://match.uefa.com/v5/"
