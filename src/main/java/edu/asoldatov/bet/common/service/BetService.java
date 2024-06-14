@@ -66,16 +66,28 @@ public class BetService {
         return betRepository.findAllByStatus(BetStatus.READY_TO_UPDATE);
     }
 
-    public Map<User, Integer> getCurrentResult() {
+    public List<ReportItem> getCurrentResult() {
         var bets = betRepository.findAll();
-        Map<User, Integer> result = new HashMap<>();
+        Map<User, Set<Bet>> result = new HashMap<>();
 
         for (Bet bet : bets) {
             User user = bet.getUser();
-            result.put(user, result.getOrDefault(user, 0) + bet.getScore());
+            var set = result.getOrDefault(user, new HashSet<>());
+            set.add(bet);
+            result.put(user, set);
         }
 
-        return result;
+        List<ReportItem> items = new ArrayList<>(result.size());
+
+        for (User user : result.keySet()) {
+            var userBets = result.get(user);
+            int score = userBets.stream().mapToInt(Bet::getScore).sum();
+            int matchCount = userBets.size();
+
+            items.add(new ReportItem().setUser(user).setScore(score).setMatches(matchCount));
+        }
+
+        return items;
     }
 
     private boolean isMatchNotStarted(Bet bet) {
