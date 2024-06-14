@@ -14,4 +14,6 @@ public class UefaMatch {
     private KickOffTime kickOffTime;
 
     private String status;
+
+    private UefaScore score;
 }

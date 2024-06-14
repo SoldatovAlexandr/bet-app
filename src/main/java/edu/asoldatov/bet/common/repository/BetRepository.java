@@ -15,4 +15,6 @@ public interface BetRepository extends JpaRepository<Bet, Integer> {
 
     List<Bet> findAllByStatus(BetStatus betStatus);
 
+    List<Bet> findByMatch(Match match);
+
 }

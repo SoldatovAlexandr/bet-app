@@ -14,6 +14,6 @@ public class KickOffTime {
     //  },
 
     private LocalDate date;
-    private LocalDateTime dateTime;
+    private LocalDateTime dateTime; //todo
     private int utcOffsetInHours;
 }

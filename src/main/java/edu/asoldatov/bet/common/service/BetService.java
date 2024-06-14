@@ -79,7 +79,7 @@ public class BetService {
     }
 
     private boolean isMatchNotStarted(Bet bet) {
-        return bet.getMatch().getTime().isAfter(dateService.now());
+        return bet.getMatch().getTime().isAfter(dateService.now().minusHours(3));
     }
 
     private boolean scoreIsCorrect(Bet bet, String callbackData) {

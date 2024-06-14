@@ -27,7 +27,7 @@ public class UefaService {
     private final TeamRepository teamRepository;
     private final MatchRepository matchRepository;
 
-    @PostConstruct
+    //@PostConstruct
     public void initialize() {
         //todo
         log.info("Starting initialize");
