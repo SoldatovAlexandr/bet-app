@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class DateService {
 
     public LocalDate today() {
-        return LocalDate.of(2024, 6, 16);
+        return LocalDate.now();
     }
 
     public LocalDateTime now() {

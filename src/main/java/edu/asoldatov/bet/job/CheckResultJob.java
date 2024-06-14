@@ -8,9 +8,9 @@ public class CheckResultJob {
 
     //todo job for check result
 
-    @Scheduled(fixedRate = 1000)
+/*    @Scheduled(fixedRate = 100000)
     public void check() {
 
-    }
+    }*/
 
 }

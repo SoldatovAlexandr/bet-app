@@ -34,8 +34,8 @@ public class MatchDayNotificationJob {
 
     //todo
 
-    @Scheduled(fixedRate = 1000000)
-    //@Scheduled(cron = "@hourly")
+    //@Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 3_600_000)
     public void sendNotifications() {
         LocalDate day = dateService.today();
         LocalDateTime start = LocalDateTime.of(day, LocalTime.MIN);

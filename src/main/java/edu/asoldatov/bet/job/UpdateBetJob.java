@@ -35,12 +35,11 @@ public class UpdateBetJob {
             message.setMessageId(bet.getId());
             message.setReplyMarkup(TelegramUtils.getInlineKeyboardMarkup());
             telegramBot.execute(message);
-
-            //todo сделать не ебано
-            bet.setStatus(BetStatus.PROGRESS);
-            betService.update(bet);
         } catch (TelegramApiException e) {
             log.error("Can not update bet [{}] for user [{}]", bet.getId(), bet.getUser());
         }
+        //todo сделать не ебано
+        bet.setStatus(BetStatus.PROGRESS);
+        betService.update(bet);
     }
 }
