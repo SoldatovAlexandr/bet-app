@@ -18,8 +18,8 @@ public class CountryCodeService {
 
     private static String getFlagEmoji(String countryCode) {
         StringBuilder flagEmoji = new StringBuilder();
-        for (int i = 0; i < countryCode.length(); i++) {
-            int codePoint = 127397 + countryCode.charAt(i);
+        for (Character character : countryCode.toCharArray()) {
+            int codePoint = 127397 + character;
             flagEmoji.appendCodePoint(codePoint);
         }
         return flagEmoji.toString();

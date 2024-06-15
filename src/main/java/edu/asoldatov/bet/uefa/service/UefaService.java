@@ -3,7 +3,6 @@ package edu.asoldatov.bet.uefa.service;
 import edu.asoldatov.bet.common.model.Match;
 import edu.asoldatov.bet.common.model.Result;
 import edu.asoldatov.bet.common.model.Team;
-import edu.asoldatov.bet.common.repository.CountryCodeRepository;
 import edu.asoldatov.bet.common.repository.MatchRepository;
 import edu.asoldatov.bet.common.repository.TeamRepository;
 import edu.asoldatov.bet.uefa.dto.UefaMatch;
