@@ -3,6 +3,7 @@ package edu.asoldatov.bet.uefa.service;
 import edu.asoldatov.bet.common.model.Match;
 import edu.asoldatov.bet.common.model.Result;
 import edu.asoldatov.bet.common.model.Team;
+import edu.asoldatov.bet.common.repository.CountryCodeRepository;
 import edu.asoldatov.bet.common.repository.MatchRepository;
 import edu.asoldatov.bet.common.repository.TeamRepository;
 import edu.asoldatov.bet.uefa.dto.UefaMatch;
@@ -11,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -26,6 +26,7 @@ public class UefaService {
     private final UefaClient uefaClient;
     private final TeamRepository teamRepository;
     private final MatchRepository matchRepository;
+    private final CountryCodeService countryCodeService;
 
     //@PostConstruct
     public void initialize() {
@@ -43,7 +44,7 @@ public class UefaService {
         var teams = uefaTeams.stream()
                 .map(uefaTeam -> Team.builder()
                         .id(uefaTeam.getId())
-                        .name(uefaTeam.getInternationalName())
+                        .name(countryCodeService.buildName(uefaTeam.getInternationalName()))
                         .build())
                 .collect(Collectors.toMap(Team::getId, v -> v));
 
