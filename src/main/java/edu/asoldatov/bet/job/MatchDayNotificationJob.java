@@ -37,6 +37,7 @@ public class MatchDayNotificationJob {
     //@Scheduled(fixedRate = 10000)
     @Scheduled(fixedRate = 3_600_000)
     public void sendNotifications() {
+        log.info("Start sending notifications");
         LocalDate day = dateService.today();
         LocalDateTime start = LocalDateTime.of(day, LocalTime.MIN);
         LocalDateTime finish = LocalDateTime.of(day, LocalTime.MAX);
@@ -46,6 +47,7 @@ public class MatchDayNotificationJob {
         var activeUsers = userRepository.findAllByStatus(UserStatus.ACTIVE);
 
         activeUsers.forEach(user -> sendNotifications(user, matches));
+        log.info("Finish sending notifications");
     }
 
     private void sendNotifications(User user, List<Match> matches) {
@@ -62,8 +64,6 @@ public class MatchDayNotificationJob {
                 var message = buildBetMessage(user, match);
                 var result = telegramBot.execute(message);
                 betService.create(result.getMessageId(), user, match);
-            } else {
-                log.error("Duplicate");
             }
         } catch (TelegramApiException e) {
             log.error("Can not send bet notification for user [{}]", user.getId(), e);

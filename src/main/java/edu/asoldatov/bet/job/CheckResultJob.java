@@ -26,7 +26,7 @@ public class CheckResultJob {
     private final BetRepository betRepository;
 
 
-    @Scheduled(fixedRate = 600_000)
+    @Scheduled(fixedRate = 60_000)
     public void check() {
         var today = dateService.today();
 
@@ -37,7 +37,11 @@ public class CheckResultJob {
                     match -> {
                         if (uefaMatch.getStatus().equals("FINISHED") && uefaMatch.getScore() != null && match.getResult() == Result.NONE) {
                             updateMatch(uefaMatch, match);
-                            betRepository.findByMatch(match).forEach(bet -> updateBet(bet, match));
+                            betRepository.findByMatch(match).forEach(bet -> updateBet(bet, match.getResult(), match.getHomeScore(), match.getAwayScore()));
+                        } else if (uefaMatch.getStatus().equals("LIVE")) {
+                            var score = uefaMatch.getScore().getTotal();
+                            var matchResult = calculateResult(score.getHome(), score.getAway());
+                            betRepository.findByMatch(match).forEach(bet -> updateBet(bet, matchResult, score.getHome(), score.getAway()));
                         }
                     }
             );
@@ -53,9 +57,9 @@ public class CheckResultJob {
         matchRepository.save(match);
     }
 
-    private void updateBet(Bet bet, Match match) {
+    private void updateBet(Bet bet, Result matchResult, int home, int away) {
         var betResult = calculateResult(bet.getHomeScore(), bet.getAwayScore());
-        int score = (match.getAwayScore() == bet.getAwayScore() && match.getHomeScore() == match.getHomeScore()) ? 3 : betResult == match.getResult() ? 1 : 0;
+        int score = (away == bet.getAwayScore() && home == bet.getHomeScore()) ? 3 : betResult == matchResult ? 1 : 0;
         bet.setScore(score);
         betRepository.save(bet);
     }

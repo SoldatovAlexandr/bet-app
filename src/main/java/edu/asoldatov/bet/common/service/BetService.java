@@ -50,8 +50,9 @@ public class BetService {
             }
             bet.setStatus(BetStatus.READY_TO_UPDATE);
             betRepository.save(bet);
+        } else {
+            log.error("Can not change bet");
         }
-        log.error("Can not change bet");
     }
 
     public void update(Bet bet) {

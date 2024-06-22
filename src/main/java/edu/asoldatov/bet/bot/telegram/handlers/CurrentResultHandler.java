@@ -28,7 +28,7 @@ public class CurrentResultHandler extends CommandHandler {
         var result = betService.getCurrentResult();
 
         result.sort((v1, v2) -> {
-            int r = v1.getScore() - v2.getScore();
+            int r = v2.getScore() - v1.getScore();
             return r != 0 ? r : v1.getMatches() - v2.getMatches();
         });
 
@@ -59,6 +59,6 @@ public class CurrentResultHandler extends CommandHandler {
                 1, "\uD83E\uDD48",
                 2, "\uD83E\uDD49"
         );
-        return emojis.getOrDefault(position, "");
+        return emojis.getOrDefault(position, "\t\t");
     }
 }

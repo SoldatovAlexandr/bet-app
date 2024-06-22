@@ -26,8 +26,6 @@ public class UefaClient {
         String from = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(localDateFrom);
         String to = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(localDateTo);
         var uri = uefaProperties.getUrl() + "matches" + "?competitionId=3&fromDate=" + from + "&limit=10&offset=0&seasonYear=2024&toDate=" + to + "&utcOffset=3";
-
-        System.out.println(uri);
         return restTemplate.getForObject(uri, UefaMatch[].class);
     }
 }

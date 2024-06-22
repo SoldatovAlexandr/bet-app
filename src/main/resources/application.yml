@@ -7,6 +7,8 @@ datasource:
       password: "${POSTGRES_PASSWORD}"
       connection-timeout: 60000
       maximum-pool-size: 5
+      minimum-idle: 2
+
 server:
   port: 8090
 spring:
