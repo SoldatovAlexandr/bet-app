@@ -36,7 +36,7 @@ public class CurrentResultHandler extends CommandHandler {
 
         for (int i = 0; i < result.size(); i++) {
             builder.append(getEmojiByPosition(i))
-                    .append(result.get(i).getUser().getUsername())
+                    .append(result.get(i).getUser().getFirstName())
                     .append(" ")
                     .append(result.get(i).getScore())
                     .append("\n");
