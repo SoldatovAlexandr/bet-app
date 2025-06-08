@@ -18,10 +18,10 @@ public class BetService {
     private final BetRepository betRepository;
     private final DateService dateService;
 
-    public void create(Integer id, User user, Match match) {
+    public void create(Integer id, User user, Tournament tournament) {
         var bet = Bet.builder()
                 .id(id)
-                .match(match)
+                .tournament(tournament)
                 .user(user)
                 .awayScore(0)
                 .homeScore(0)
@@ -32,8 +32,8 @@ public class BetService {
         betRepository.save(bet);
     }
 
-    public Optional<Bet> findByUserAndMatch(Match match, User user) {
-        return betRepository.findByUserAndMatch(user, match);
+    public Optional<Bet> findByUserAndTournament(Tournament tournament, User user) {
+        return betRepository.findByUserAndTournament(user, tournament);
     }
 
     public Optional<Bet> findById(Integer id) {
@@ -92,7 +92,7 @@ public class BetService {
     }
 
     private boolean isMatchNotStarted(Bet bet) {
-        return bet.getMatch().getTime().isAfter(dateService.now().minusHours(3));
+        return bet.getTournament().getDate().isAfter(dateService.now().minusHours(3)); // todo
     }
 
     private boolean scoreIsCorrect(Bet bet, String callbackData) {

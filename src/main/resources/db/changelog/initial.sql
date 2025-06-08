@@ -1,64 +1,70 @@
---changeset asoldatov:initial1
-create sequence if not exists hibernate_sequence
-    increment 1
-    minvalue 1
-    maxvalue 9223372036854775807
-    start 1
-    cache 1;
---rollback drop sequence hibernate_sequence;
---comment: Добавлен hibernate_sequence
+-- liquibase formatted sql
 
---changeset asoldatov:team1
-create table if not exists team
-(
-    id      bigint          primary key,
-    name    varchar(100)     not null
-);
---rollback drop table team;
---comment: Создана таблица team
+-- changeset asoldatov:initial1
+-- comment: Добавлена последовательность hibernate_sequence
+CREATE SEQUENCE IF NOT EXISTS hibernate_sequence
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
+-- rollback DROP SEQUENCE hibernate_sequence;
 
---changeset asoldatov:match1
-create table if not exists match
+-- changeset asoldatov:users1
+-- comment: Создана таблица users
+CREATE TABLE IF NOT EXISTS users
 (
-    id              varchar(20)     primary key,
-    home_team_id    bigint          not null,
-    away_team_id    bigint          not null,
-    time            timestamp       not null,
-    home_score      int             not null,
-    away_score      int             not null,
-    result          varchar(10)     not null,
-    created_at      timestamp       not null,
-    foreign key (home_team_id) references team (id),
-    foreign key (away_team_id) references team (id)
+    id              BIGINT          PRIMARY KEY,
+    username        VARCHAR(255),
+    first_name      VARCHAR(255),
+    status          VARCHAR(255)    NOT NULL
 );
---rollback drop table match;
---comment: Создана таблица match
+-- rollback DROP TABLE users;
 
---changeset asoldatov:users1
-create table if not exists users
+-- changeset asoldatov:stage1
+-- comment: Создана таблица stage
+CREATE TABLE IF NOT EXISTS stage
 (
-    id              bigint          primary key,
-    username        varchar(255)               ,
-    first_name      varchar(255)               ,
-    status          varchar(255)       not null
+    id              INT             PRIMARY KEY,
+    stage           VARCHAR(50)     NOT NULL,
+    status          VARCHAR(50),
+    start_date      TIMESTAMP       NOT NULL,
+    end_date        TIMESTAMP       NOT NULL
 );
---rollback drop table users;
---comment: Создана таблица users
+-- rollback DROP TABLE stage;
 
---changeset asoldatov:bet1
-create table if not exists bet
+-- changeset asoldatov:tournament1
+-- comment: Создана таблица tournament
+CREATE TABLE IF NOT EXISTS tournament
 (
-    id              bigint          primary key,
-    match_id        varchar(20)     not null,
-    user_id         bigint          not null,
-    created_at      timestamp       not null,
-    home_score      int             not null,
-    away_score      int             not null,
-    score           int             not null,
-    status          varchar(20)     not null,
-    foreign key (match_id) references match (id),
-    foreign key (user_id) references users (id),
-    unique (match_id, user_id)
+    id                  INT             PRIMARY KEY,
+    venue_name          VARCHAR(255),
+    date                TIMESTAMP       NOT NULL,
+    home_squad_id       BIGINT          NOT NULL,
+    away_squad_id       BIGINT          NOT NULL,
+    home_squad_name     VARCHAR(100)    NOT NULL,
+    away_squad_name     VARCHAR(100)    NOT NULL,
+    status              VARCHAR(50),
+    bracket_id          INT,
+    stage_id            INT             NOT NULL,
+    CONSTRAINT fk_tournament_stage FOREIGN KEY (stage_id) REFERENCES stage (id)
 );
---rollback drop table bet;
---comment: Создана таблица bet
+-- rollback DROP TABLE tournament;
+
+-- changeset asoldatov:bet1
+-- comment: Создана таблица bet
+CREATE TABLE IF NOT EXISTS bet
+(
+    id              BIGINT          PRIMARY KEY,
+    tournament_id   INT             NOT NULL,
+    user_id         BIGINT          NOT NULL,
+    created_at      TIMESTAMP       NOT NULL,
+    home_score      INT             NOT NULL,
+    away_score      INT             NOT NULL,
+    score           INT             NOT NULL,
+    status          VARCHAR(20)     NOT NULL,
+    CONSTRAINT fk_bet_tournament FOREIGN KEY (tournament_id) REFERENCES tournament (id),
+    CONSTRAINT fk_bet_user FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT uq_tournament_user UNIQUE (tournament_id, user_id)
+);
+-- rollback DROP TABLE bet;

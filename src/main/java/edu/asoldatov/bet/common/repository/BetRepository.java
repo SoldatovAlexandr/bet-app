@@ -2,7 +2,7 @@ package edu.asoldatov.bet.common.repository;
 
 import edu.asoldatov.bet.common.model.Bet;
 import edu.asoldatov.bet.common.model.BetStatus;
-import edu.asoldatov.bet.common.model.Match;
+import edu.asoldatov.bet.common.model.Tournament;
 import edu.asoldatov.bet.common.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public interface BetRepository extends JpaRepository<Bet, Integer> {
 
-    Optional<Bet> findByUserAndMatch(User user, Match match);
+    Optional<Bet> findByUserAndTournament(User user, Tournament tournament);
 
     List<Bet> findAllByStatus(BetStatus betStatus);
 
-    List<Bet> findByMatch(Match match);
+    List<Bet> findByTournament(Tournament tournament);
 
 }

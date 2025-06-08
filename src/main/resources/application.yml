@@ -35,3 +35,6 @@ app:
   uefa:
     integration:
       url: "https://match.uefa.com/v5/"
+  fifa:
+    integration:
+      url: "https://play.fifa.com/json/bracket_predictor/rounds.json"

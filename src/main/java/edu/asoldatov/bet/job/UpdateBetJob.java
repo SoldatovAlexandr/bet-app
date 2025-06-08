@@ -30,7 +30,7 @@ public class UpdateBetJob {
 
     private void update(Bet bet) {
         try {
-            var message = new EditMessageText(TelegramUtils.formatMessage(bet.getMatch(), bet.getHomeScore(), bet.getAwayScore()));
+            var message = new EditMessageText(TelegramUtils.formatMessage(bet.getTournament(), bet.getHomeScore(), bet.getAwayScore()));
             message.setChatId(bet.getUser().getId());
             message.setMessageId(bet.getId());
             message.setReplyMarkup(TelegramUtils.getInlineKeyboardMarkup());

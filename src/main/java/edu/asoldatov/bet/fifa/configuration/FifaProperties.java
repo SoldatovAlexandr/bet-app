@@ -1,4 +1,4 @@
-package edu.asoldatov.bet.uefa.configuration;
+package edu.asoldatov.bet.fifa.configuration;
 
 
 import lombok.Data;
@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "app.uefa.integration")
-public class UefaProperties {
+@ConfigurationProperties(prefix = "app.fifa.integration")
+public class FifaProperties {
 
     private String url;
 

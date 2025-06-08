@@ -1,6 +1,6 @@
 package edu.asoldatov.bet.bot.telegram;
 
-import edu.asoldatov.bet.common.model.Match;
+import edu.asoldatov.bet.common.model.Tournament;
 import lombok.experimental.UtilityClass;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -34,15 +34,15 @@ public class TelegramUtils {
     }
 
 
-    public String formatMessage(Match match, int homeScore, int awayScore) {
+    public String formatMessage(Tournament tournament, int homeScore, int awayScore) {
         return String.format("""
                         %s : %s
                         %s : %s
                         %s
                         """,
-                match.getHome().getName(), match.getAway().getName(),
+                tournament.getHomeSquadName(), tournament.getAwaySquadName(),
                 homeScore, awayScore,
-                match.getTime() // todo format
+                tournament.getDate() // todo format
                 //todo можно намного больше инфы качать!!!
         );
     }
