@@ -26,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MatchDayNotificationJob {
 
+    public static final String BOT_WAS_BLOCKED_BY_THE_USER = "Error executing org.telegram.telegrambots.meta.api.methods.send.SendMessage query: [403] Forbidden: bot was blocked by the user";
     private final BetBot telegramBot;
     private final TournamentRepository tournamentRepository;
     private final UserRepository userRepository;
@@ -35,17 +36,17 @@ public class MatchDayNotificationJob {
     @Scheduled(fixedRate = 10000)
     //@Scheduled(fixedRate = 3_600_000)
     public void sendNotifications() {
-        log.info("Start sending notifications");
+        //log.info("Start sending notifications");
         LocalDate day = dateService.today();
         LocalDateTime start = LocalDateTime.of(day, LocalTime.MIN);
-        LocalDateTime finish = LocalDateTime.of(day, LocalTime.MAX);
+        LocalDateTime finish = LocalDateTime.of(day, LocalTime.MAX).plusDays(1);
 
         var matches = tournamentRepository.findAllByDateBetween(start, finish);
 
         var activeUsers = userRepository.findAllByStatus(UserStatus.ACTIVE);
 
         activeUsers.forEach(user -> sendNotifications(user, matches));
-        log.info("Finish sending notifications");
+        //log.info("Finish sending notifications");
     }
 
     private void sendNotifications(User user, List<Tournament> tournaments) {
@@ -65,6 +66,10 @@ public class MatchDayNotificationJob {
             }
         } catch (TelegramApiException e) {
             log.error("Can not send bet notification for user [{}]", user.getId(), e);
+            if (BOT_WAS_BLOCKED_BY_THE_USER.equals(e.getMessage())) {
+                user.setStatus(UserStatus.STOPPED);
+                userRepository.save(user);
+            }
         }
     }
 

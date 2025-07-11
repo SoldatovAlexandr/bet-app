@@ -48,11 +48,11 @@ public class BetService {
                 case DOWN_HOME -> bet.setHomeScore(bet.getHomeScore() - 1);
                 case DOWN_AWAY -> bet.setAwayScore(bet.getAwayScore() - 1);
             }
-            bet.setStatus(BetStatus.READY_TO_UPDATE);
-            betRepository.save(bet);
         } else {
-            log.error("Can not change bet");
+            log.error("Can not change bet {}", bet);
         }
+        bet.setStatus(BetStatus.READY_TO_UPDATE);
+        betRepository.save(bet);
     }
 
     public void update(Bet bet) {

@@ -44,7 +44,7 @@ public class IdentificationHandler implements Handler {
         return User.builder()
                 .id(message.getFrom().getId())
                 .username(message.getFrom().getUserName())
-                .firstName(message.getFrom().getFirstName())
+                .firstName(message.getFrom().getFirstName() + " " + message.getFrom().getLastName())
                 .status(UserStatus.NEW)
                 .build();
     }

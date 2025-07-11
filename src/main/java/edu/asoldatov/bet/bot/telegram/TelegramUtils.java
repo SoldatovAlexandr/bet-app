@@ -5,6 +5,8 @@ import lombok.experimental.UtilityClass;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static edu.asoldatov.bet.common.model.ScoreChange.*;
@@ -35,15 +37,22 @@ public class TelegramUtils {
 
 
     public String formatMessage(Tournament tournament, int homeScore, int awayScore) {
+        String status = tournament.getStatus().equals("complete") ? "\uD83E\uDD76 Матч уже завершен." : !tournament.getStatus().equals("scheduled") ? "\uD83D\uDD25 Матч начался!" : "Матч еще не начался, ты можешь сделать ставку!";
+        String result = tournament.getStatus().equals("scheduled") ? "" : String.format("""
+                Результат матча: %s : %s
+                """, tournament.getHomeScore(), tournament.getAwayScore());
         return String.format("""
                         %s : %s
                         %s : %s
                         %s
+                        %s
+                        %s
                         """,
                 tournament.getHomeSquadName(), tournament.getAwaySquadName(),
                 homeScore, awayScore,
-                tournament.getDate() // todo format
-                //todo можно намного больше инфы качать!!!
+                tournament.getDate().format(DateTimeFormatter.ofPattern("HH:mm")),
+                status,
+                result
         );
     }
 }

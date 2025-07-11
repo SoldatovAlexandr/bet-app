@@ -19,12 +19,11 @@ public class TournamentDto {
     private long awaySquadId;
     private String homeSquadName;
     private String awaySquadName;
-    //todo
-    private Object winner; // Может быть null
-    private Object homeScore; // Может быть null
-    private Object awayScore; // Может быть null
-    private Object homePenaltyScore; // Может быть null
-    private Object awayPenaltyScore; // Может быть null
+    private Long winner;
+    private Integer homeScore;
+    private Integer awayScore;
+    private Integer homePenaltyScore;
+    private Integer awayPenaltyScore;
     private String status;
     private int bracketId;
 
